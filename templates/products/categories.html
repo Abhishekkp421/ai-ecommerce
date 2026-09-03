@@ -1,0 +1,93 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Categories | AI Shop</title>
+
+    <link rel="stylesheet"
+          href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+    <nav class="navbar">
+
+        <div class="logo">
+            AI SHOP
+        </div>
+
+        <div class="nav-links">
+
+            <a href="{% url 'home' %}">Home</a>
+
+            <a href="{% url 'products' %}">Products</a>
+
+            <a href="{% url 'categories' %}">Categories</a>
+
+            <a href="/accounts/login/">Login</a>
+
+            <a href="/cart/">Cart 🛒</a>
+
+        </div>
+
+    </nav>
+
+
+    <section class="products-section">
+
+        <h1>Product Categories</h1>
+
+        <div class="product-grid">
+
+            {% for category in categories %}
+
+                <div class="product-card">
+
+                    <div class="product-image">
+                        📦
+                    </div>
+
+                    <div class="product-info">
+
+                        <h2>
+                            {{ category.category__name }}
+                        </h2>
+
+                       <a href="{% url 'products' %}?category={{ category.category__name|urlencode }}"
+   class="cart-btn">
+    View Products
+</a>
+
+                    </div>
+
+                </div>
+
+            {% empty %}
+
+                <p>No categories available.</p>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+
+    <footer>
+
+        <p>
+            © 2026 AI Shop | AI-Powered E-Commerce
+        </p>
+
+    </footer>
+
+</body>
+
+</html>

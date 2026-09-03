@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+    Checkout | AI Shop
+{% endblock %}
+
+
+{% block content %}
+
+<section class="checkout-section">
+
+    <h1>Checkout</h1>
+
+    <div class="checkout-container">
+
+
+        <!-- Checkout Form -->
+
+        <div class="checkout-form">
+
+            <h2>Delivery Details</h2>
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+
+                <label>
+                    Full Name
+                </label>
+
+                <input
+                    type="text"
+                    name="full_name"
+                    required
+                >
+
+
+                <label>
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    name="email"
+                    required
+                >
+
+
+                <label>
+                    Address
+                </label>
+
+                <textarea
+                    name="address"
+                    rows="4"
+                    required
+                ></textarea>
+
+
+                <label>
+                    City
+                </label>
+
+                <input
+                    type="text"
+                    name="city"
+                    required
+                >
+
+
+                <label>
+                    Pincode
+                </label>
+
+                <input
+                    type="text"
+                    name="pincode"
+                    maxlength="10"
+                    required
+                >
+
+
+                <button type="submit">
+                    Place Order
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- Order Summary -->
+
+        <div class="order-summary">
+
+            <h2>Order Summary</h2>
+
+
+            {% for item in cart_items %}
+
+                <div class="summary-item">
+
+                    <span>
+                        {{ item.product.name }}
+                        × {{ item.quantity }}
+                    </span>
+
+                    <span>
+                        ₹{{ item.total_price }}
+                    </span>
+
+                </div>
+
+            {% endfor %}
+
+
+            <hr>
+
+
+            <h2>
+                Total: ₹{{ total }}
+            </h2>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

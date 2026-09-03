@@ -1,0 +1,103 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        {% block title %}
+            AI Shop
+        {% endblock %}
+    </title>
+
+    <link rel="stylesheet"
+          href="{% static 'css/style.css' %}">
+
+</head>
+
+<body>
+
+    <!-- Navbar -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            <a href="{% url 'home' %}">
+                AI SHOP
+            </a>
+        </div>
+
+        <div class="nav-links">
+
+            <a href="{% url 'home' %}">
+                Home
+            </a>
+
+            <a href="{% url 'products' %}">
+                Products
+            </a>
+
+            <a href="{% url 'categories' %}">
+                Categories
+            </a>
+
+            {% if user.is_authenticated %}
+
+                <a href="{% url 'my_orders' %}">
+                    My Orders
+                </a> 
+<a href="{% url 'wishlist' %}" class="nav-icon-link">
+    Wishlist <span>❤️</span>
+</a>
+
+                <a href="{% url 'logout' %}">
+                    Logout
+                </a>
+
+            {% else %}
+
+                <a href="{% url 'login' %}">
+                    Login
+                </a>
+
+                <a href="{% url 'register' %}">
+                    Register
+                </a>
+
+            {% endif %}
+
+<a href="{% url 'cart' %}" class="nav-icon-link">
+    Cart <span>🛒</span>
+</a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- Page Content -->
+
+    {% block content %}
+
+    {% endblock %}
+
+
+    <!-- Footer -->
+
+    <footer>
+
+        <p>
+            © 2026 AI Shop | AI-Powered E-Commerce
+        </p>
+
+    </footer>
+
+</body>
+
+</html>

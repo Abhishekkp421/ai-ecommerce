@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+    Shopping Cart | AI Shop
+{% endblock %}
+
+
+{% block content %}
+
+<section class="cart-section">
+
+    <h1>
+        Your Shopping Cart 🛒
+    </h1>
+
+
+    {% if cart_items %}
+
+        {% for item in cart_items %}
+
+            <div class="cart-item">
+
+                <div>
+
+                    <h3>
+                        {{ item.product.name }}
+                    </h3>
+
+                    <p>
+                        ₹{{ item.product.price }}
+                    </p>
+
+
+                    <div class="quantity-control">
+
+                        <span>
+                            Quantity:
+                        </span>
+
+                        <a
+                            href="{% url 'decrease_quantity' item.id %}"
+                            class="quantity-btn"
+                        >
+                            −
+                        </a>
+
+                        <span class="quantity">
+                            {{ item.quantity }}
+                        </span>
+
+                        <a
+                            href="{% url 'increase_quantity' item.id %}"
+                            class="quantity-btn"
+                        >
+                            +
+                        </a>
+
+                    </div>
+
+
+                    <p>
+                        Subtotal:
+                        ₹{{ item.total_price }}
+                    </p>
+
+                </div>
+
+
+                <a
+                    href="{% url 'remove_from_cart' item.id %}"
+                    class="remove-btn"
+                >
+                    Remove
+                </a>
+
+            </div>
+
+        {% endfor %}
+
+
+        <div class="cart-total">
+
+            <h2>
+                Total: ₹{{ total }}
+            </h2>
+
+            <a
+                href="{% url 'checkout' %}"
+                class="checkout-btn"
+            >
+                Proceed to Checkout
+            </a>
+
+        </div>
+
+
+    {% else %}
+
+        <div class="empty-cart">
+
+            <h2>
+                Your cart is empty 🛒
+            </h2>
+
+            <p>
+                Add some products to your cart.
+            </p>
+
+            <a href="{% url 'products' %}">
+                Continue Shopping
+            </a>
+
+        </div>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}

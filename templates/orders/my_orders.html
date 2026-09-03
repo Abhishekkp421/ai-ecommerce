@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+    My Orders | AI Shop
+{% endblock %}
+
+
+{% block content %}
+
+<section class="orders-section">
+
+    <h1>
+        My Orders 📦
+    </h1>
+
+
+    {% if orders %}
+
+        {% for order in orders %}
+
+            <div class="order-card">
+
+                <div class="order-header">
+
+                    <h2>
+                        Order #{{ order.id }}
+                    </h2>
+
+                    <span class="status-badge status-{{ order.status|lower }}">
+    {{ order.get_status_display }}
+  </span>
+
+                </div>
+
+
+                <p class="order-date">
+                    {{ order.created_at }}
+                </p>
+
+
+                <div class="order-items">
+
+                    {% for item in order.items.all %}
+
+                        <div class="order-item">
+
+                            <span>
+                                {{ item.product.name }}
+                                × {{ item.quantity }}
+                            </span>
+
+                            <span>
+                                ₹{{ item.subtotal }}
+                            </span>
+
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+
+                <div class="order-total">
+
+                    Total:
+                    ₹{{ order.total_amount }}
+
+                </div>
+
+            </div>
+
+        {% endfor %}
+
+
+    {% else %}
+
+        <div class="empty-orders">
+
+            <h2>
+                No orders yet
+            </h2>
+
+            <p>
+                Start shopping and place your first order.
+            </p>
+
+            <a href="{% url 'products' %}">
+                Start Shopping
+            </a>
+
+        </div>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}

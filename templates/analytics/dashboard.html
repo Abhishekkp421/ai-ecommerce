@@ -1,0 +1,336 @@
+{% extends "base.html" %}
+
+{% block title %}
+Admin Analytics | AI Shop
+{% endblock %}
+
+{% block content %}
+
+<section class="analytics-section">
+
+    <div class="analytics-header">
+        <h1>📊 Admin Analytics Dashboard</h1>
+        <p>AI Shop performance overview</p>
+    </div>
+
+    <!-- Main Statistics -->
+    <div class="analytics-cards">
+
+        <div class="analytics-card">
+            <h3>👥 Total Users</h3>
+            <strong>{{ total_users }}</strong>
+        </div>
+
+        <div class="analytics-card">
+            <h3>📦 Total Products</h3>
+            <strong>{{ total_products }}</strong>
+        </div>
+
+        <div class="analytics-card">
+            <h3>🛒 Total Orders</h3>
+            <strong>{{ total_orders }}</strong>
+        </div>
+
+        <div class="analytics-card">
+            <h3>💰 Total Revenue</h3>
+            <strong>₹{{ total_revenue }}</strong>
+        </div>
+
+    </div>
+
+
+    <!-- Order Statistics -->
+    <div class="analytics-cards">
+
+        <div class="analytics-card">
+            <h3>⏳ Pending Orders</h3>
+            <strong>{{ pending_orders }}</strong>
+        </div>
+
+        <div class="analytics-card">
+            <h3>✅ Delivered Orders</h3>
+            <strong>{{ delivered_orders }}</strong>
+        </div>
+
+        <div class="analytics-card">
+            <h3>👀 Product Views</h3>
+            <strong>{{ total_views }}</strong>
+        </div>
+
+        <div class="analytics-card">
+            <h3>❤️ Wishlist Items</h3>
+            <strong>{{ total_wishlist }}</strong>
+        </div>
+
+    </div>
+
+
+    <!-- AI/User Activity -->
+    <div class="analytics-cards">
+
+        <div class="analytics-card">
+            <h3>🛒 Cart Interactions</h3>
+            <strong>{{ total_carts }}</strong>
+        </div>
+
+        <div class="analytics-card">
+            <h3>💳 Purchase Interactions</h3>
+            <strong>{{ total_purchases }}</strong>
+        </div>
+
+    </div>
+    <!-- Top Selling Products Chart -->
+
+<div class="analytics-chart-section">
+
+    <h2>📊 Top Selling Products</h2>
+
+    <div class="chart-container">
+        <canvas id="topProductsChart"></canvas>
+    </div>
+
+</div>
+<!-- Most Viewed Products Chart -->
+
+<div class="analytics-chart-section">
+
+    <h2>👀 Most Viewed Products</h2>
+
+    <div class="chart-container">
+        <canvas id="mostViewedChart"></canvas>
+    </div>
+
+</div>
+<!-- Order Status Chart -->
+
+<div class="analytics-chart-section">
+
+    <h2>📦 Order Status Overview</h2>
+
+    <div class="order-status-chart-container">
+        <canvas id="orderStatusChart"></canvas>
+    </div>
+
+</div>
+
+    <!-- Top Products -->
+    <div class="analytics-table-section">
+
+        <h2>🏆 Top Selling Products</h2>
+
+        <table class="analytics-table">
+
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Quantity Sold</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for product in top_products %}
+
+                <tr>
+                    <td>{{ product.product__name }}</td>
+                    <td>{{ product.total_sold }}</td>
+                </tr>
+
+                {% empty %}
+
+                <tr>
+                    <td colspan="2">
+                        No sales data available.
+                    </td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <!-- Most Viewed -->
+    <div class="analytics-table-section">
+
+        <h2>👀 Most Viewed Products</h2>
+
+        <table class="analytics-table">
+
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Views</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for product in top_viewed_products %}
+
+                <tr>
+                    <td>{{ product.product__name }}</td>
+                    <td>{{ product.total_views }}</td>
+                </tr>
+
+                {% empty %}
+
+                <tr>
+                    <td colspan="2">
+                        No viewing data available.
+                    </td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+ </section>
+ {{ top_products_chart|json_script:"top-products-data" }}
+{{ most_viewed_chart|json_script:"most-viewed-data" }}
+{{ order_status_chart|json_script:"order-status-data" }}
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+ <script>
+    const topProductsData = JSON.parse(
+        document.getElementById("top-products-data").textContent
+    );
+
+    const mostViewedData = JSON.parse(
+        document.getElementById("most-viewed-data").textContent
+    );
+
+    const orderStatusData = JSON.parse(
+        document.getElementById("order-status-data").textContent
+    );
+
+
+    /* TOP SELLING PRODUCTS */
+
+    const topProductsCtx = document.getElementById(
+        "topProductsChart"
+    );
+
+    new Chart(topProductsCtx, {
+        type: "bar",
+
+        data: {
+            labels: topProductsData.map(
+                item => item.label
+            ),
+
+            datasets: [
+                {
+                    label: "Quantity Sold",
+
+                    data: topProductsData.map(
+                        item => item.value
+                    )
+                }
+            ]
+        },
+
+        options: {
+            responsive: true,
+
+            scales: {
+                y: {
+                    beginAtZero: true,
+
+                    ticks: {
+                        precision: 0
+                    }
+                }
+            }
+        }
+    });
+
+
+    /* MOST VIEWED PRODUCTS */
+
+    const mostViewedCtx = document.getElementById(
+        "mostViewedChart"
+    );
+
+    new Chart(mostViewedCtx, {
+        type: "bar",
+
+        data: {
+            labels: mostViewedData.map(
+                item => item.label
+            ),
+
+            datasets: [
+                {
+                    label: "Views",
+
+                    data: mostViewedData.map(
+                        item => item.value
+                    )
+                }
+            ]
+        },
+
+        options: {
+            responsive: true,
+
+            indexAxis: "y",
+
+            scales: {
+                x: {
+                    beginAtZero: true,
+
+                    ticks: {
+                        precision: 0
+                    }
+                }
+            }
+        }
+    });
+
+
+    /* ORDER STATUS */
+
+    const orderStatusCtx = document.getElementById(
+        "orderStatusChart"
+    );
+
+    new Chart(orderStatusCtx, {
+        type: "doughnut",
+
+        data: {
+            labels: orderStatusData.map(
+                item => item.label
+            ),
+
+            datasets: [
+                {
+                    label: "Orders",
+
+                    data: orderStatusData.map(
+                        item => item.value
+                    )
+                }
+            ]
+        },
+
+        options: {
+            responsive: true,
+
+            plugins: {
+                legend: {
+                    position: "bottom"
+                }
+            }
+        }
+    });
+</script>
+
+{% endblock %}

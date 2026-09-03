@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+    Order Successful | AI Shop
+{% endblock %}
+
+
+{% block content %}
+
+<section class="success-section">
+
+    <div class="success-box">
+
+        <div class="success-icon">
+            🎉
+        </div>
+
+        <h1>
+            Order Placed Successfully!
+        </h1>
+
+        <p>
+            Thank you for shopping with AI Shop.
+        </p>
+
+
+        <div class="order-info">
+
+            <h2>
+                Order #{{ order.id }}
+            </h2>
+
+            <p>
+                Total Amount:
+                <strong>
+                    ₹{{ order.total_amount }}
+                </strong>
+            </p>
+
+            <p>
+                Status:
+                <strong>
+                    {{ order.status }}
+                </strong>
+            </p>
+
+        </div>
+
+
+        <div class="success-actions">
+
+            <a
+                href="{% url 'products' %}"
+                class="continue-btn"
+            >
+                Continue Shopping
+            </a>
+
+            <a
+                href="{% url 'my_orders' %}"
+                class="continue-btn"
+            >
+                View My Orders
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

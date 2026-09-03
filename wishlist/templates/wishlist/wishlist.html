@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+
+{% block title %}
+    My Wishlist | AI Shop
+{% endblock %}
+
+{% block content %}
+
+<section class="wishlist-section">
+
+    <div class="wishlist-header">
+
+        <h1>
+            My Wishlist ❤️
+        </h1>
+
+        <p>
+            Your saved products
+        </p>
+
+    </div>
+
+
+    {% if wishlist_items %}
+
+        <div class="wishlist-grid">
+
+            {% for item in wishlist_items %}
+
+                <div class="wishlist-card">
+
+                    <div class="wishlist-image">
+
+                        {% if item.product.image %}
+
+                            <img
+                                src="{{ item.product.image.url }}"
+                                alt="{{ item.product.name }}"
+                            >
+
+                        {% else %}
+
+                            <span>🛍️</span>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <div class="wishlist-info">
+
+                        <p class="category">
+                            {{ item.product.category.name }}
+                        </p>
+
+                        <h3>
+                            {{ item.product.name }}
+                        </h3>
+
+                        <p class="description">
+                            {{ item.product.description|truncatewords:15 }}
+                        </p>
+
+
+                        <div class="wishlist-bottom">
+
+                            <strong>
+                                ₹{{ item.product.price }}
+                            </strong>
+
+                            <span>
+                                {{ item.product.stock }} left
+                            </span>
+
+                        </div>
+
+
+                        <div class="wishlist-actions">
+
+                            <a
+                                href="{% url 'product_detail' item.product.slug %}"
+                                class="view-product-btn"
+                            >
+                                View Product
+                            </a>
+
+                            <a
+                                href="{% url 'remove_from_wishlist' item.product.id %}"
+                                class="remove-btn"
+                            >
+                                Remove ❤️
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+
+    {% else %}
+
+        <div class="empty-wishlist">
+
+            <div class="empty-wishlist-icon">
+                ❤️
+            </div>
+
+            <h2>
+                Your wishlist is empty
+            </h2>
+
+            <p>
+                Save products you love and find them here later.
+            </p>
+
+            <a
+                href="{% url 'products' %}"
+                class="continue-btn"
+            >
+                Explore Products
+            </a>
+
+        </div>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}

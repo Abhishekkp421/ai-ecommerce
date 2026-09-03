@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block title %}{{ product.name }} | AI Shop{% endblock %}
+
+{% block content %}
+
+<!-- Product Detail -->
+
+<section class="product-detail">
+  <div class="detail-image">
+    {% if product.image %}
+
+    <img src="{{ product.image.url }}" alt="{{ product.name }}" />
+
+    {% else %}
+
+    <span>🛍️</span>
+
+    {% endif %}
+  </div>
+
+  <div class="detail-info">
+    <p class="category">{{ product.category.name }}</p>
+
+    <h1>{{ product.name }}</h1>
+
+    <p class="detail-description">{{ product.description }}</p>
+
+    <div class="detail-price">₹{{ product.price }}</div>
+
+    <p class="detail-stock">
+  {% if product.stock > 0 %}
+    In Stock — {{ product.stock }} available
+  {% else %}
+    Out of Stock
+  {% endif %}
+</p>
+    {% if product.stock > 0 %}
+
+    <a href="{% url 'add_to_cart' product.id %}" class="cart-btn detail-cart">
+      Add to Cart
+    </a>
+
+    {% else %}
+
+    <button class="cart-btn detail-cart" disabled>Out of Stock</button>
+
+    {% endif %} {% if user.is_authenticated %} {% if is_wishlisted %}
+
+    <a href="{% url 'remove_from_wishlist' product.id %}" class="wishlist-btn">
+      ❤️ Remove from Wishlist
+    </a>
+
+    {% else %}
+
+    <a href="{% url 'add_to_wishlist' product.id %}" class="wishlist-btn">
+      ♡ Add to Wishlist
+    </a>
+
+    {% endif %} {% endif %}
+
+    <a href="{% url 'products' %}" class="back-link"> ← Continue Shopping </a>
+  </div>
+</section>
+
+<!-- AI Recommendations -->
+
+<section class="recommendations-section">
+  <h2>🤖 You May Also Like</h2>
+
+  <p class="recommendation-reason">{{ recommendation_reason }}</p>
+
+  <div class="recommendations-grid">
+    {% for item in similar_products %}
+
+    <div class="recommendation-card">
+      <div class="recommendation-image">
+        {% if item.image %}
+
+        <img src="{{ item.image.url }}" alt="{{ item.name }}" />
+
+        {% else %} 🛍️ {% endif %}
+      </div>
+
+      <div class="recommendation-content">
+        <span class="recommendation-category"> {{ item.category.name }} </span>
+
+        <h3>{{ item.name }}</h3>
+
+        <p>{{ item.description|truncatewords:15 }}</p>
+
+        <div class="recommendation-bottom">
+          <strong> ₹{{ item.price }} </strong>
+
+          <a
+            href="{% url 'product_detail' item.slug %}"
+            class="view-product-btn"
+          >
+            View Product
+          </a>
+        </div>
+      </div>
+    </div>
+
+    {% empty %}
+
+    <p>No recommendations available yet.</p>
+
+    {% endfor %}
+  </div>
+</section>
+
+{% endblock %}

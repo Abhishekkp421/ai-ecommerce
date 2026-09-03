@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block title %}
+    AI Shop
+{% endblock %}
+
+{% block content %}
+
+<!-- Hero Section -->
+
+<section class="hero">
+
+    <div>
+
+        <h1>Welcome to AI Shop</h1>
+
+        <p>
+            Discover products personalized for you.
+        </p>
+
+        <a href="{% url 'products' %}" class="hero-btn">
+            Explore Products
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- Featured Products -->
+
+<section class="products-section">
+
+    <div class="products-header">
+
+        <h2>Featured Products</h2>
+
+        <a href="{% url 'products' %}">
+            View All Products →
+        </a>
+
+    </div>
+
+
+    <div class="product-grid">
+
+        {% for product in products %}
+
+        <div class="product-card">
+
+            <div class="product-image">
+
+                {% if product.image %}
+
+                    <img src="{{ product.image.url }}"
+                         alt="{{ product.name }}">
+
+                {% else %}
+
+                    <span>🛍️</span>
+
+                {% endif %}
+
+            </div>
+
+
+            <div class="product-info">
+
+                <p class="category">
+                    {{ product.category.name }}
+                </p>
+
+                <h3>
+                    <a href="{% url 'product_detail' product.slug %}">
+                        {{ product.name }}
+                    </a>
+                </h3>
+
+                <p class="description">
+                    {{ product.description|truncatewords:12 }}
+                </p>
+
+                <div class="product-bottom">
+
+                    <span class="price">
+                        ₹{{ product.price }}
+                    </span>
+
+                    <span class="stock">
+                        {{ product.stock }} left
+                    </span>
+
+                </div>
+
+                <a href="{% url 'add_to_cart' product.id %}"
+                   class="cart-btn">
+                    Add to Cart
+                </a>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+{% endblock %}
