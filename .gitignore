@@ -17,3 +17,5 @@ media/
 
 # IDE
 .vscode/
+# Collected static files
+staticfiles/
