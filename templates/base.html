@@ -51,7 +51,12 @@
 
                 <a href="{% url 'my_orders' %}">
                     My Orders
-                </a> 
+                </a>
+                {% if user.is_staff %}
+    <a href="{% url 'analytics_dashboard' %}">
+        📊 Analytics
+    </a>
+{% endif %} 
 <a href="{% url 'wishlist' %}" class="nav-icon-link">
     Wishlist <span>❤️</span>
 </a>
