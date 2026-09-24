@@ -1714,3 +1714,219 @@ footer {
         font-size: 14px;
     }
 }
+/* =========================
+   DUMMY PAYMENT PAGE
+========================= */
+
+.payment-section {
+    width: 90%;
+    max-width: 600px;
+    margin: 50px auto;
+}
+
+.payment-card {
+    background: white;
+    padding: 35px;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    text-align: center;
+}
+
+.payment-card h1 {
+    margin-bottom: 8px;
+}
+
+.payment-subtitle {
+    color: #666;
+    margin-bottom: 25px;
+}
+
+.payment-info {
+    text-align: left;
+    background: #f8fafc;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 25px;
+}
+
+.payment-info p {
+    margin: 10px 0;
+}
+
+.payment-amount {
+    font-size: 25px;
+    font-weight: bold;
+    color: #2563eb;
+}
+
+.qr-box {
+    display: flex;
+    justify-content: center;
+    margin: 25px 0;
+}
+
+.qr-placeholder {
+    width: 180px;
+    height: 180px;
+    border: 2px dashed #2563eb;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #eff6ff;
+}
+
+.qr-placeholder span {
+    font-size: 45px;
+}
+
+.qr-placeholder p {
+    margin: 8px 0 2px;
+    font-weight: bold;
+}
+
+.qr-placeholder small {
+    color: #666;
+}
+
+.test-message {
+    color: #666;
+    font-size: 14px;
+    margin: 20px 0;
+}
+
+.payment-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.pay-success-btn,
+.pay-failed-btn {
+    display: block;
+    padding: 13px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.pay-success-btn {
+    background: #16a34a;
+    color: white;
+}
+
+.pay-failed-btn {
+    background: #dc2626;
+    color: white;
+}
+
+.pay-success-btn:hover,
+.pay-failed-btn:hover {
+    opacity: 0.9;
+}
+/* =========================
+   PAYMENT DETAILS
+========================= */
+
+.payment-details {
+    background: #f8fafc;
+    padding: 15px 18px;
+    border-radius: 10px;
+    margin: 15px 0 20px;
+    border-left: 4px solid #2563eb;
+}
+
+.payment-details p {
+    margin: 6px 0;
+    font-size: 14px;
+}
+
+.payment-details strong {
+    color: #1e293b;
+}
+/* =========================
+   PAYMENT FAILED PAGE
+========================= */
+
+.payment-failed-section {
+    width: 90%;
+    max-width: 650px;
+    margin: 50px auto;
+}
+
+.payment-failed-card {
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    text-align: center;
+}
+
+.failed-icon {
+    font-size: 55px;
+    margin-bottom: 10px;
+}
+
+.payment-failed-card h1 {
+    margin-bottom: 10px;
+    color: #dc2626;
+}
+
+.failed-message {
+    color: #666;
+    margin-bottom: 25px;
+}
+
+.failed-info {
+    text-align: left;
+    background: #fef2f2;
+    padding: 20px;
+    border-radius: 10px;
+    border-left: 4px solid #dc2626;
+    margin-bottom: 20px;
+}
+
+.failed-info p {
+    margin: 8px 0;
+    font-size: 14px;
+}
+
+.dummy-message {
+    color: #666;
+    font-size: 14px;
+    margin: 20px 0;
+}
+
+.failed-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.failed-actions a {
+    display: block;
+    padding: 13px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.retry-btn {
+    background: #2563eb;
+    color: white;
+}
+
+.cart-btn {
+    background: #475569;
+    color: white;
+}
+
+.orders-btn {
+    background: #16a34a;
+    color: white;
+}
+
+.failed-actions a:hover {
+    opacity: 0.9;
+}

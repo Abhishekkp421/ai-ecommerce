@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Payment | AI Shop
+{% endblock %}
+
+{% block content %}
+
+<section class="payment-section">
+
+    <div class="payment-card">
+
+        <h1>💳 Complete Payment</h1>
+
+        <p class="payment-subtitle">
+            AI Shop Test Payment
+        </p>
+
+        <div class="payment-info">
+
+            <p>
+                <strong>Order ID:</strong>
+                #{{ order.id }}
+            </p>
+
+            <p>
+                <strong>Payment ID:</strong>
+                {{ payment.payment_id }}
+            </p>
+
+            <p>
+                <strong>Payment Method:</strong>
+                UPI
+            </p>
+
+            <p class="payment-amount">
+                ₹{{ payment.amount }}
+            </p>
+
+        </div>
+
+        <div class="qr-box">
+
+            <div class="qr-placeholder">
+                <span>📱</span>
+                <p>UPI QR</p>
+                <small>Test Payment</small>
+            </div>
+
+        </div>
+
+        <p class="test-message">
+            This is a dummy payment environment.
+            No real money will be deducted.
+        </p>
+
+        <div class="payment-actions">
+
+            <a
+                href="{% url 'payment_success' order.id %}"
+                class="pay-success-btn"
+            >
+                ✅ Simulate Successful Payment
+            </a>
+
+            <a
+                href="{% url 'payment_failed' order.id %}"
+                class="pay-failed-btn"
+            >
+                ❌ Simulate Failed Payment
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

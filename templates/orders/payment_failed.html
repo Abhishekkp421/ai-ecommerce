@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Payment Failed | AI Shop
+{% endblock %}
+
+{% block content %}
+
+<section class="payment-failed-section">
+
+    <div class="payment-failed-card">
+
+        <div class="failed-icon">
+            ❌
+        </div>
+
+        <h1>
+            Payment Failed
+        </h1>
+
+        <p class="failed-message">
+            Your payment could not be completed.
+        </p>
+
+        <div class="failed-info">
+
+            <p>
+                <strong>Order ID:</strong>
+                #{{ order.id }}
+            </p>
+
+            <p>
+                <strong>Payment ID:</strong>
+                {{ payment.payment_id }}
+            </p>
+
+            <p>
+                <strong>Payment Status:</strong>
+                {{ payment.get_status_display }}
+            </p>
+
+            <p>
+                <strong>Amount:</strong>
+                ₹{{ payment.amount }}
+            </p>
+
+        </div>
+
+        <p class="dummy-message">
+            This was a dummy payment.
+            No real money was deducted.
+        </p>
+
+        <div class="failed-actions">
+
+            <a href="{% url 'checkout' %}" class="retry-btn">
+                🔄 Try Again
+            </a>
+
+            <a href="{% url 'cart' %}" class="cart-btn">
+                🛒 Back to Cart
+            </a>
+
+            <a href="{% url 'my_orders' %}" class="orders-btn">
+                📦 My Orders
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

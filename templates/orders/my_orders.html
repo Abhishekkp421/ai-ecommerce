@@ -38,7 +38,24 @@
                     {{ order.created_at }}
                 </p>
 
+<div class="payment-details">
 
+    <p>
+        <strong>Payment Status:</strong>
+        {{ order.payment.get_status_display }}
+    </p>
+
+    <p>
+        <strong>Payment Method:</strong>
+        {{ order.payment.get_payment_method_display }}
+    </p>
+
+    <p>
+        <strong>Payment ID:</strong>
+        {{ order.payment.payment_id }}
+    </p>
+
+</div>
                 <div class="order-items">
 
                     {% for item in order.items.all %}

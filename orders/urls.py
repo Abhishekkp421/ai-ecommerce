@@ -9,6 +9,9 @@ from .views import (
     checkout,
     order_success,
     my_orders,
+    payment_page,
+    payment_success,
+    payment_failed,
 )
 
 
@@ -48,6 +51,23 @@ urlpatterns = [
         "checkout/",
         checkout,
         name="checkout"
+    ),
+    path(
+    "payment/<int:order_id>/",
+    payment_page,
+    name="payment_page"
+    ),
+
+    path(
+    "payment/<int:order_id>/success/",
+    payment_success,
+    name="payment_success"
+    ),
+
+    path(
+    "payment/<int:order_id>/failed/",
+    payment_failed,
+    name="payment_failed"
     ),
 
     path(
