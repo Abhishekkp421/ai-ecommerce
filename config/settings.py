@@ -23,15 +23,29 @@ load_dotenv(BASE_DIR / ".env")
 # See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv("SECRET_KEY")
+SECRET_KEY = os.getenv("SECRET_KEY", "django-insecure-railway-ecommerce-default-secret-key")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = os.getenv("DEBUG", "False").lower() in ("true", "1", "yes")
 
+# Allowed Hosts
 ALLOWED_HOSTS = ["*"]
-
+if os.getenv("ALLOWED_HOSTS"):
+    ALLOWED_HOSTS = [h.strip() for h in os.getenv("ALLOWED_HOSTS").split(",") if h.strip()]
+if os.getenv("RAILWAY_PUBLIC_DOMAIN"):
+    ALLOWED_HOSTS.append(os.getenv("RAILWAY_PUBLIC_DOMAIN"))
 if os.getenv("RENDER_EXTERNAL_HOSTNAME"):
     ALLOWED_HOSTS.append(os.getenv("RENDER_EXTERNAL_HOSTNAME"))
+
+# CSRF Trusted Origins (Required in Django 4+ for forms/POST requests)
+CSRF_TRUSTED_ORIGINS = [
+    "https://*.railway.app",
+    "https://*.up.railway.app",
+]
+if os.getenv("RAILWAY_PUBLIC_DOMAIN"):
+    CSRF_TRUSTED_ORIGINS.append(f"https://{os.getenv('RAILWAY_PUBLIC_DOMAIN')}")
+if os.getenv("CSRF_TRUSTED_ORIGINS"):
+    CSRF_TRUSTED_ORIGINS.extend([origin.strip() for origin in os.getenv("CSRF_TRUSTED_ORIGINS").split(",") if origin.strip()])
 
 
 # Application definition
@@ -86,7 +100,8 @@ import dj_database_url
 
 DATABASES = {
     "default": dj_database_url.config(
-        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}"
+        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+        conn_max_age=600,
     )
 }
 
@@ -108,6 +123,8 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # Internationalization
@@ -133,6 +150,8 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
+WHITENOISE_USE_FINDERS = True
+
 # Email
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
@@ -148,12 +167,15 @@ DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL")
 # Production security settings
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
-SECURE_SSL_REDIRECT = True
+# Railway edge proxy handles HTTPS termination automatically.
+# Keeping SECURE_SSL_REDIRECT configurable (default False) prevents failing internal Railway health checks.
+SECURE_SSL_REDIRECT = os.getenv("SECURE_SSL_REDIRECT", "False").lower() in ("true", "1", "yes")
 
-SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = os.getenv("SESSION_COOKIE_SECURE", "True").lower() in ("true", "1", "yes")
 
-CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = os.getenv("CSRF_COOKIE_SECURE", "True").lower() in ("true", "1", "yes")
 
-SECURE_HSTS_SECONDS = 31536000
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_HSTS_PRELOAD = True
+if not DEBUG and os.getenv("SECURE_HSTS_SECONDS"):
+    SECURE_HSTS_SECONDS = int(os.getenv("SECURE_HSTS_SECONDS"))
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
